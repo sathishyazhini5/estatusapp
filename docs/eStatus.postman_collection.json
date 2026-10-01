@@ -1,0 +1,654 @@
+{
+  "info": {
+    "name": "eStatus Local APIs (20)",
+    "description": "Local testing guide: see LOCAL_API_POSTMAN_GUIDE.md. Email and upload requests have real side effects; run individually.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/v1",
+      "type": "string"
+    },
+    {
+      "key": "email",
+      "value": "existing-user@example.com",
+      "type": "string"
+    },
+    {
+      "key": "verifytoken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refreshToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "confrer_code",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "centre_code",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "scholastic_code",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Send login OTP",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/auth-email",
+        "description": "Required: email of an existing confrere (personal_mailid1). Sends an actual email. Save results.verifytoken. Current code uses fixed OTP 123456.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{email}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) { const data = pm.response.json().results; if(data && data.verifytoken) pm.collectionVariables.set('verifytoken', data.verifytoken); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Verify OTP",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/auth-otp",
+        "description": "Required: verifycode as a STRING with 6 numeric digits. Bearer token is verifytoken, not accessToken. Saves results.accessToken and results.refreshToken. Success: HTTP 201.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{verifytoken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"verifycode\": \"123456\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) { const data = pm.response.json().results; if(data && data.accessToken) pm.collectionVariables.set('accessToken', data.accessToken); if(data && data.refreshToken) pm.collectionVariables.set('refreshToken', data.refreshToken); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Check access token",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/auth-token",
+        "description": "Body: none. Current implementation returns HTTP 200 even for missing/expired tokens; inspect results.confrer_code and results.personal_mailid1 instead of trusting the success message.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Refresh access token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/create-token",
+        "description": "Required: refreshtoken in JSON body (lowercase field name). No bearer token needed. Save results.accessToken. Success: HTTP 201.",
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"refreshtoken\": \"{{refreshToken}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) { const data = pm.response.json().results; if(data && data.accessToken) pm.collectionVariables.set('accessToken', data.accessToken); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List provinces",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/list-province",
+        "description": "Body: none. Use results[].province_code for provincecode in search/dashboard requests.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "List countries",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/list-country",
+        "description": "Body: none. Returns country records.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "View dashboard",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/view-dashboard",
+        "description": "Required: provincecode. ALL = all provinces; replace with a real province_code for one province.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"provincecode\": \"ALL\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Search confreres",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/find-confreres",
+        "description": "All fields optional. provincecode and filter fields default to ALL; searchtxt defaults to empty. searchtxt searches names/contact details. Use quick_code from memtyp/natlty/divtyp/destyp options. bloodgroup uses blood_group_code from metadata. languagecode is compared to quickcode_mst lancod; confrere filters return languagemetadata, so verify its code matches the stored language code. subdivision currently expects division NAME for ALL province searches, division_code for a specific province.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"provincecode\": \"ALL\",\n  \"searchtxt\": \"\",\n  \"memtyp\": \"ALL\",\n  \"bloodgroup\": \"ALL\",\n  \"natlty\": \"ALL\",\n  \"languagecode\": \"ALL\",\n  \"divtyp\": \"ALL\",\n  \"subdivision\": \"ALL\",\n  \"destyp\": \"ALL\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 200) { const rows = pm.response.json().results; if(Array.isArray(rows) && rows.length && rows[0].confrer_code) pm.collectionVariables.set('confrer_code', rows[0].confrer_code); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List confrere filters",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/list-confre-filters",
+        "description": "Body: none. results contains destyp, divtyp (with divisions), memtyp, natlty, bloodgroup, language, nationality, province. Quick Master options preserve quick_code and are marked province_code=ALL.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "View confrere",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/view-confre",
+        "description": "Required: confrercode. Copy confrer_code from find-confreres results. Request field has no underscore.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"confrercode\": \"{{confrer_code}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "View scholastic",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/view-scholastic",
+        "description": "Required: scholasticCode (capital C). Copy scholastic_code from find-scholastics results. Missing record returns HTTP 404.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"scholasticCode\": \"{{scholastic_code}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Search centres",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/find-centres",
+        "description": "All fields optional; use this complete body for testing. Filters use actual codes in ALL and province-specific views. divtyp/apostl/ctrtyp/diocse: quick_code. communitygroup: community_house_code. language: language_code. state: state_code. country: country_code. The route does not forward subdivision, so subdivision filtering is not exposed by this endpoint.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"provincecode\": \"ALL\",\n  \"searchtxt\": \"\",\n  \"divtyp\": \"ALL\",\n  \"apostl\": \"ALL\",\n  \"ctrtyp\": \"ALL\",\n  \"diocse\": \"ALL\",\n  \"communitygroup\": \"ALL\",\n  \"language\": \"ALL\",\n  \"state\": \"ALL\",\n  \"country\": \"ALL\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 200) { const rows = pm.response.json().results; if(Array.isArray(rows) && rows.length && rows[0].centre_code) pm.collectionVariables.set('centre_code', rows[0].centre_code); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List centre filters",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/list-centre-filters",
+        "description": "Body: none. results contains divtyp, apostl, ctrtyp, diocse, communitygroup, language, province, state, country. Global options retain actual identifiers.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "View centre",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/view-centre",
+        "description": "Required: centrecode. Copy centre_code from find-centres results.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"centrecode\": \"{{centre_code}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Search obituary",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/find-obituary",
+        "description": "All fields optional. memtyp accepts quick_code; legacy names also accepted in ALL view. For ALL province: language expects language_name, dcountry and ocountry expect country_name (legacy behavior). For a specific province: language expects language_code; country fields expect country_code. fromdate/todate: YYYY-MM-DD or empty; inclusive death-date bounds. searchtxt searches disease_name/death_place.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"provincecode\": \"ALL\",\n  \"searchtxt\": \"\",\n  \"memtyp\": \"ALL\",\n  \"language\": \"ALL\",\n  \"dcountry\": \"ALL\",\n  \"ocountry\": \"ALL\",\n  \"fromdate\": \"\",\n  \"todate\": \"\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "List obituary filters",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/list-obituary-filters",
+        "description": "Body: none. results contains memtyp, language, province, country. For ALL-country options country_code contains the country name; this is still the legacy obituary contract.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Find death anniversary",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/find-anniversary",
+        "description": "deathdate is required for successful execution even though the route has no validator. Use YYYY-MM-DD. Matching uses month and day, ignoring year.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"deathdate\": \"2026-10-01\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Search scholastics",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/find-scholastics",
+        "description": "All fields optional. natlty: actual nationality quick_code from list-confre-filters results.natlty. Legacy nationality-name matching also supported for ALL. searchtxt searches name/email.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"provincecode\": \"ALL\",\n  \"searchtxt\": \"\",\n  \"natlty\": \"ALL\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 200) { const rows = pm.response.json().results; if(Array.isArray(rows) && rows.length && rows[0].scholastic_code) pm.collectionVariables.set('scholastic_code', rows[0].scholastic_code); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get app version",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/app-version",
+        "description": "Body: none. Public endpoint; calls Apple lookup for the configured app ID. Requires internet. Response is {\"version\":\"...\"}, rather than the usual results envelope.",
+        "auth": {
+          "type": "noauth"
+        }
+      }
+    },
+    {
+      "name": "Upload logged-in confrere photo",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{baseUrl}}/upload-confrere-photo",
+        "description": "Postman Body > form-data: key file, type File, choose JPG/JPEG/PNG. Do not manually set Content-Type; Postman adds the multipart boundary. No confrer_code body field: user comes from accessToken. This uploads to Azure and updates the logged-in user photo in the database. Requires Azure configuration. Success: response_code=1.",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{accessToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": []
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

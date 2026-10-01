@@ -1,0 +1,742 @@
+[
+  {
+    "name": "syntax models/confrereimage.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax models/Country.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax models/Dashboard.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax models/Filters.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax models/Obituary.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax models/Province.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax models/Search.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax models/User.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax routes/index.routes.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax routes/user.routes.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax middlewares/authAccessToken.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax middlewares/authRefreshToken.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax middlewares/authVerifyToken.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax middlewares/db.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax middlewares/msgConfig.js",
+    "status": "PASS"
+  },
+  {
+    "name": "syntax database/db.js",
+    "status": "PASS"
+  },
+  {
+    "name": "database connection",
+    "status": "PASS"
+  },
+  {
+    "name": "listConfreFilters",
+    "status": "PASS"
+  },
+  {
+    "name": "listCentreFilters",
+    "status": "PASS"
+  },
+  {
+    "name": "listObituaryFilters",
+    "status": "PASS"
+  },
+  {
+    "name": "dashboard ALL",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics ALL",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary ALL",
+    "status": "PASS"
+  },
+  {
+    "name": "dashboard PR001",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres PR001",
+    "status": "PASS"
+  },
+  {
+    "name": "centres PR001",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics PR001",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary PR001",
+    "status": "PASS"
+  },
+  {
+    "name": "dashboard PR002",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres PR002",
+    "status": "PASS"
+  },
+  {
+    "name": "centres PR002",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics PR002",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary PR002",
+    "status": "PASS"
+  },
+  {
+    "name": "dashboard PR003",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres PR003",
+    "status": "PASS"
+  },
+  {
+    "name": "centres PR003",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics PR003",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary PR003",
+    "status": "PASS"
+  },
+  {
+    "name": "dashboard PR004",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres PR004",
+    "status": "PASS"
+  },
+  {
+    "name": "centres PR004",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics PR004",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary PR004",
+    "status": "PASS"
+  },
+  {
+    "name": "dashboard PR005",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres PR005",
+    "status": "PASS"
+  },
+  {
+    "name": "centres PR005",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics PR005",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary PR005",
+    "status": "PASS"
+  },
+  {
+    "name": "dashboard PR006",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres PR006",
+    "status": "PASS"
+  },
+  {
+    "name": "centres PR006",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics PR006",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary PR006",
+    "status": "PASS"
+  },
+  {
+    "name": "dashboard PR007",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres PR007",
+    "status": "PASS"
+  },
+  {
+    "name": "centres PR007",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics PR007",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary PR007",
+    "status": "PASS"
+  },
+  {
+    "name": "dashboard PR008",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres PR008",
+    "status": "PASS"
+  },
+  {
+    "name": "centres PR008",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics PR008",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary PR008",
+    "status": "PASS"
+  },
+  {
+    "name": "dashboard PR009",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres PR009",
+    "status": "PASS"
+  },
+  {
+    "name": "centres PR009",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics PR009",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary PR009",
+    "status": "PASS"
+  },
+  {
+    "name": "dashboard PR010",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres PR010",
+    "status": "PASS"
+  },
+  {
+    "name": "centres PR010",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics PR010",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary PR010",
+    "status": "PASS"
+  },
+  {
+    "name": "dashboard PR011",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres PR011",
+    "status": "PASS"
+  },
+  {
+    "name": "centres PR011",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics PR011",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary PR011",
+    "status": "PASS"
+  },
+  {
+    "name": "dashboard PR012",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres PR012",
+    "status": "PASS"
+  },
+  {
+    "name": "centres PR012",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics PR012",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary PR012",
+    "status": "PASS"
+  },
+  {
+    "name": "dashboard PR013",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres PR013",
+    "status": "PASS"
+  },
+  {
+    "name": "centres PR013",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics PR013",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary PR013",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL memtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL memtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL memtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL natlty code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL natlty code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL natlty code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL divtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL divtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL divtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL divtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL divtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "confreres ALL destyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL divtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL divtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL divtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL divtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL divtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL apostl code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL apostl code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL apostl code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL apostl code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL apostl code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL apostl code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL apostl code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL ctrtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL ctrtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL ctrtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL ctrtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL ctrtyp code",
+    "status": "PASS"
+  },
+  {
+    "name": "centres ALL diocse code",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics ALL nationality code",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics ALL nationality code",
+    "status": "PASS"
+  },
+  {
+    "name": "scholastics ALL nationality code",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary ALL member code",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary ALL member code",
+    "status": "PASS"
+  },
+  {
+    "name": "obituary ALL member code",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP /list-confre-filters",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP /list-centre-filters",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP /list-obituary-filters",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP /list-province",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP /list-country",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP /find-confreres ALL",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP /find-centres ALL",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP /find-scholastics ALL",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP /find-obituary ALL",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP /view-dashboard ALL",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP authentication required",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP dashboard validation",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre divtyp code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre divtyp code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre divtyp code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre divtyp code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre divtyp code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre apostl code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre apostl code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre apostl code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre apostl code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre apostl code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre apostl code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre apostl code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre ctrtyp code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre ctrtyp code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre ctrtyp code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre ctrtyp code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre ctrtyp code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "HTTP centre diocse code round-trip",
+    "status": "PASS"
+  },
+  {
+    "name": "anniversary",
+    "status": "PASS"
+  },
+  {
+    "name": "viewConfre",
+    "status": "PASS"
+  },
+  {
+    "name": "viewCentre",
+    "status": "PASS"
+  },
+  {
+    "name": "viewScholastic",
+    "status": "PASS"
+  }
+]

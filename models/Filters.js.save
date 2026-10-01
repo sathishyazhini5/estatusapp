@@ -1,0 +1,314 @@
+        // Updated query to include `province_code` and `province_name`
+        const queryQuickCode = `
+            SELECT json_build_object(
+                'destyp', COALESCE(ARRAY_AGG(
+                    json_build_object(
+                        'quick_code', qm.quick_code,
+                        'quickcode_name', qm.quickcode_name,
+                        'language_code', qm.language_code,
+                        'concurrency_val', qm.concurrency_val,
+                        'created_by', qm.created_by,
+                        'created_date', qm.created_date,
+                        'province_code', pm.province_code,
+                        'province_name', pm.province_name
+                    )
+                ) FILTER (WHERE qm.quick_code_type = 'destyp'), '{}'),
+                'divtyp', COALESCE(ARRAY_AGG(
+                    json_build_object(
+                        'quick_code', qm.quick_code,
+                        'quickcode_name', qm.quickcode_name,
+                        'language_code', qm.language_code,
+                        'concurrency_val', qm.concurrency_val,
+                        'created_by', qm.created_by,
+                        'created_date', qm.created_date,
+                        'province_code', pm.province_code,
+                        'province_name', pm.province_name
+                    )
+                ) FILTER (WHERE qm.quick_code_type = 'divtyp'), '{}'),
+                'memtyp', COALESCE(ARRAY_AGG(
+                    json_build_object(
+                        'quick_code', qm.quick_code,
+                        'quickcode_name', qm.quickcode_name,
+                        'language_code', qm.language_code,
+                        'concurrency_val', qm.concurrency_val,
+                        'created_by', qm.created_by,
+                        'created_date', qm.created_date,
+                        'province_code', pm.province_code,
+                        'province_name', pm.province_name
+                    )
+                ) FILTER (WHERE qm.quick_code_type = 'memtyp'), '{}'),
+                'natlty', COALESCE(ARRAY_AGG(
+                    json_build_object(
+                        'quick_code', qm.quick_code,
+                        'quickcode_name', qm.quickcode_name,
+                        'language_code', qm.language_code,
+                        'concurrency_val', qm.concurrency_val,
+                        'created_by', qm.created_by,
+                        'created_date', qm.created_date,
+                        'province_code', pm.province_code,
+                        'province_name', pm.province_name
+                    )
+                ) FILTER (WHERE qm.quick_code_type = 'natlty'), '{}')
+            ) AS grouped_data
+            FROM estatus.quickcode_mst qm
+            LEFT JOIN estatus.province_mst pm ON qm.province_code = pm.province_code;
+        `;
+
+        // Other queries
+        const queryBloodGroup = `SELECT row_to_json(bloodgroup_metadata) AS data FROM estatus.bloodgroup_metadata`;
+        const queryLanguage = `SELECT row_to_json(languagemetadata) AS data FROM estatus.languagemetadata`;
+        const queryProvince = `SELECT province_code, province_name FROM estatus.province_mst`;
+
+        // Execute all queries in parallel
+        const [quickCodeResult, bloodGroupResult, languageResult, provinceResult] = await Promise.all([
+            client.query(queryQuickCode),
+            client.query(queryBloodGroup),
+            client.query(queryLanguage),
+            client.query(queryProvince)
+        ]);
+
+        // Convert province result to a lookup object for quick reference
+        const provinceMap = {};
+        provinceResult.rows.forEach(prov => {
+            provinceMap[prov.province_code] = prov.province_name;
+        });
+
+        // Ensure province_code and province_name are included in all responses
+        const combinedResult = {
+            ...quickCodeResult.rows[0].grouped_data,
+
+            destyp: quickCodeResult.rows[0].grouped_data.destyp.map(item => ({
+                ...item,
+                province_code: item.province_code || "Unknown",
+                province_name: item.province_code ? provinceMap[item.province_code] || "Unknown" : "Unknown"
+            })),
+
+            divtyp: quickCodeResult.rows[0].grouped_data.divtyp.map(item => ({
+                ...item,
+                province_code: item.province_code || "Unknown",
+                province_name: item.province_code ? provinceMap[item.province_code] || "Unknown" : "Unknown"
+            })),
+
+            memtyp: quickCodeResult.rows[0].grouped_data.memtyp.map(item => ({
+                ...item,
+                province_code: item.province_code || "Unknown",
+                province_name: item.province_code ? provinceMap[item.province_code] || "Unknown" : "Unknown"
+            })),
+
+            natlty: quickCodeResult.rows[0].grouped_data.natlty.map(item => ({
+                ...item,
+                province_code: item.province_code || "Unknown",
+                province_name: item.province_code ? provinceMap[item.province_code] || "Unknown" : "Unknown"
+            })),
+
+            // Mapping other results
+            bloodgroup: bloodGroupResult.rows.map(row => row.data),
+            language: languageResult.rows.map(row => row.data),
+            province: provinceResult.rows
+        };
+
+        return combinedResult;
+    } catch (error) {
+        console.error("Error fetching filters:", error);
+        throw new Error("Internal Server Error while fetching filters.");
+    }
+};
+
+
+
+
+const listCentreFilters = async () => {
+    try {
+        // Updated query to include `province_code` and `province_name`
+        const queryQuickCode = `
+            SELECT json_build_object(
+                'divtyp', COALESCE(ARRAY_AGG(
+                    json_build_object(
+                        'quick_code', qm.quick_code,
+                        'quickcode_name', qm.quickcode_name,
+                        'language_code', qm.language_code,
+                        'concurrency_val', qm.concurrency_val,
+                        'created_by', qm.created_by,
+                        'created_date', qm.created_date,
+                        'province_code', pm.province_code,
+                        'province_name', pm.province_name
+                    )
+                ) FILTER (WHERE qm.quick_code_type = 'divtyp'), '{}'),
+                'apostl', COALESCE(ARRAY_AGG(
+                    json_build_object(
+                        'quick_code', qm.quick_code,
+                        'quickcode_name', qm.quickcode_name,
+                        'language_code', qm.language_code,
+                        'concurrency_val', qm.concurrency_val,
+                        'created_by', qm.created_by,
+                        'created_date', qm.created_date,
+                        'province_code', pm.province_code,
+                        'province_name', pm.province_name
+                    )
+                ) FILTER (WHERE qm.quick_code_type = 'apostl'), '{}'),
+                'ctrtyp', COALESCE(ARRAY_AGG(
+                    json_build_object(
+                        'quick_code', qm.quick_code,
+                        'quickcode_name', qm.quickcode_name,
+                        'language_code', qm.language_code,
+                        'concurrency_val', qm.concurrency_val,
+                        'created_by', qm.created_by,
+                        'created_date', qm.created_date,
+                        'province_code', pm.province_code,
+                        'province_name', pm.province_name
+                    )
+                ) FILTER (WHERE qm.quick_code_type = 'ctrtyp'), '{}'),
+                'diocse', COALESCE(ARRAY_AGG(
+                    json_build_object(
+                        'quick_code', qm.quick_code,
+                        'quickcode_name', qm.quickcode_name,
+                        'language_code', qm.language_code,
+                        'concurrency_val', qm.concurrency_val,
+                        'created_by', qm.created_by,
+                        'created_date', qm.created_date,
+                        'province_code', pm.province_code,
+                        'province_name', pm.province_name
+                    )
+                ) FILTER (WHERE qm.quick_code_type = 'diocse'), '{}')
+            ) AS grouped_data
+            FROM estatus.quickcode_mst qm
+            LEFT JOIN estatus.province_mst pm ON qm.province_code = pm.province_code;
+        `;
+
+        // Other queries
+        const queryCommunityGroup = `SELECT row_to_json(community_house_dtl) AS data FROM estatus.community_house_dtl`;
+        const queryLanguage = `SELECT row_to_json(languagemetadata) AS data FROM estatus.languagemetadata`;
+        const queryProvince = `SELECT province_code, province_name FROM estatus.province_mst`;
+        const queryState = `SELECT row_to_json(state_mst) AS data FROM estatus.state_mst`;
+        const queryCountry = `SELECT row_to_json(country_mst) AS data FROM estatus.country_mst`;
+
+        // Execute all queries in parallel
+        const [quickCodeResult, communityGroupResult, languageResult, provinceResult, stateResult, countryResult] = await Promise.all([
+            client.query(queryQuickCode),
+            client.query(queryCommunityGroup),
+            client.query(queryLanguage),
+            client.query(queryProvince),
+            client.query(queryState),
+            client.query(queryCountry)
+        ]);
+
+        // Convert province result to a lookup object for quick reference
+        const provinceMap = {};
+        provinceResult.rows.forEach(prov => {
+            provinceMap[prov.province_code] = prov.province_name;
+        });
+
+        // Ensure province_code and province_name are included in all responses
+        const combinedResult = {
+            ...quickCodeResult.rows[0].grouped_data,
+
+            divtyp: quickCodeResult.rows[0].grouped_data.divtyp.map(item => ({
+                ...item,
+                province_code: item.province_code || "Unknown",
+                province_name: item.province_code ? provinceMap[item.province_code] || "Unknown" : "Unknown"
+            })),
+
+            apostl: quickCodeResult.rows[0].grouped_data.apostl.map(item => ({
+                ...item,
+                province_code: item.province_code || "Unknown",
+                province_name: item.province_code ? provinceMap[item.province_code] || "Unknown" : "Unknown"
+            })),
+
+            ctrtyp: quickCodeResult.rows[0].grouped_data.ctrtyp.map(item => ({
+                ...item,
+                province_code: item.province_code || "Unknown",
+                province_name: item.province_code ? provinceMap[item.province_code] || "Unknown" : "Unknown"
+            })),
+
+            diocse: quickCodeResult.rows[0].grouped_data.diocse.map(item => ({
+                ...item,
+                province_code: item.province_code || "Unknown",
+                province_name: item.province_code ? provinceMap[item.province_code] || "Unknown" : "Unknown"
+            })),
+
+            // Mapping other results
+            communitygroup: communityGroupResult.rows.map(row => row.data),
+            language: languageResult.rows.map(row => row.data),
+            province: provinceResult.rows,
+            state: stateResult.rows.map(row => row.data),
+            country: countryResult.rows.map(row => row.data)
+        };
+
+        return combinedResult;
+    } catch (error) {
+        console.error("Error fetching centre filters:", error);
+        throw new Error("Internal Server Error while fetching centre filters.");
+    }
+};
+
+
+
+
+const listObituaryFilters = async () => {
+    try {
+        // Updated query to include `province_code` and `province_name`
+        const queryQuickCode = `
+            SELECT json_build_object(
+                'memtyp', COALESCE(
+                    ARRAY_AGG(
+                        json_build_object(
+                            'quick_code', qm.quick_code,
+                            'quickcode_name', qm.quickcode_name,
+                            'language_code', qm.language_code,
+                            'concurrency_val', qm.concurrency_val,
+                            'created_by', qm.created_by,
+                            'created_date', qm.created_date,
+                            'province_code', pm.province_code,
+                            'province_name', pm.province_name
+                        )
+                    ) FILTER (WHERE qm.quick_code_type = 'memtyp'), '{}'
+                )
+            ) AS grouped_data
+            FROM estatus.quickcode_mst qm
+            LEFT JOIN estatus.province_mst pm ON qm.province_code = pm.province_code;
+        `;
+
+        // Other queries
+        const queryLanguage = `SELECT row_to_json(languagemetadata) AS data FROM estatus.languagemetadata`;
+        const queryProvince = `SELECT province_code, province_name FROM estatus.province_mst`;
+        const queryCountry = `SELECT row_to_json(country_mst) AS data FROM estatus.country_mst`;
+
+        // Execute all queries in parallel
+        const [quickCodeResult, languageResult, provinceResult, countryResult] = await Promise.all([
+            client.query(queryQuickCode),
+            client.query(queryLanguage),
+            client.query(queryProvince),
+            client.query(queryCountry)
+        ]);
+
+        // Convert province result to a lookup object for quick reference
+        const provinceMap = {};
+        provinceResult.rows.forEach(prov => {
+            provinceMap[prov.province_code] = prov.province_name;
+        });
+
+        // Ensure province_code and province_name are included in `memtyp`
+        const combinedResult = {
+            ...quickCodeResult.rows[0].grouped_data,
+
+            memtyp: quickCodeResult.rows[0].grouped_data.memtyp.map(item => ({
+                ...item,
+                province_code: item.province_code || "Unknown",
+                province_name: item.province_code ? provinceMap[item.province_code] || "Unknown" : "Unknown"
+            })),
+
+            // Mapping other results
+            language: languageResult.rows.map(row => row.data),
+            province: provinceResult.rows,
+            country: countryResult.rows.map(row => row.data)
+        };
+
+        return combinedResult;
+    } catch (error) {
+        console.error("Error fetching obituary filters:", error);
+        throw new Error("Internal Server Error while fetching obituary filters.");
+    }
+};
+
+
+module.exports = { listConfreFilters, listCentreFilters, listObituaryFilters };
